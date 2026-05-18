@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --color-primary: #1d4ed8; /* blue-700 */
+}
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased;
+  }
+}
+
+.markdown-body h3 {
+  @apply text-xl font-serif font-bold mt-10 mb-5 text-slate-800 uppercase tracking-tight border-b-2 border-primary inline-flex items-center gap-3;
+}
+
+.markdown-body p {
+  @apply mb-4 leading-relaxed text-sm text-slate-700;
+}
+
+.markdown-body ul {
+  @apply space-y-4 mb-6;
+}
+
+.markdown-body li {
+  @apply flex gap-4 text-sm text-slate-700;
+}
+
+/* Custom list mapping for the [01] aesthetic */
+.markdown-body li::before {
+  @apply content-[counter(list-item,decimal-leading-zero)] font-mono text-[10px] font-bold text-primary bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100 flex-shrink-0 h-fit mt-0.5;
+}
+
+.markdown-body blockquote {
+  @apply bg-slate-50 border-l-4 border-slate-800 p-6 my-6 text-sm italic text-slate-700 leading-relaxed rounded-r-md;
+}
+
+.markdown-body strong {
+  @apply font-bold text-slate-900;
+}
+
+.markdown-body hr {
+  @apply border-slate-100 my-8;
+}
+
+/* Card effects */
+.legal-card {
+  @apply bg-white border border-slate-100 rounded-sm shadow-sm hover:shadow-md transition-shadow p-5;
+}
