@@ -9,15 +9,10 @@ import {
   Scale, 
   FileText, 
   Upload, 
-  Send, 
   ShieldCheck, 
   Search, 
-  History, 
   FileWarning, 
-  Loader2,
-  ChevronRight,
-  Gavel,
-  BookOpen
+  Loader2
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { analyzeLegalQuery } from './services/gemini';
@@ -152,7 +147,7 @@ export default function App() {
 
                   {/* FORMULARIO DE CONTACTO AUTOMATIZADO CON GOOGLE SHEETS */}
                   <div style={{ padding: '24px', backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '4px', marginTop: '40px' }}>
-                    <h3 style={{ fontSize: '14px', fontWeight: 'bold', textTransform: 'uppercase', trackingWidth: '0.05em', color: '#1e293b', marginBottom: '16px' }}>
+                    <h3 style={{ fontSize: '14px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#1e293b', marginBottom: '16px' }}>
                       Solicitud de Consulta Personalizada
                     </h3>
                     <form 
@@ -185,7 +180,7 @@ export default function App() {
                       
                       <button 
                         type="submit" 
-                        style={{ padding: '12px', backgroundColor: '#0f172a', color: '#ffffff', fontSize: '11px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.05em', border: 'none', borderRadius: '2px', cursor: 'pointer', transition: 'background-color 0.2s' }}
+                        style={{ padding: '12px', backgroundColor: '#0f172a', color: '#ffffff', fontSize: '11px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.05em', border: 'none', borderRadius: '2px', cursor: 'pointer' }}
                       >
                         Enviar Caso a la Base de Datos
                       </button>
@@ -197,7 +192,7 @@ export default function App() {
                       style={{ display: 'none' }} 
                       onLoad={() => {
                         if ((window as any).submitted) {
-                          alert('¡Tu consulta ha sido enviada a IurisVecino con éxito! Se ha registrado en la hoja de cálculo.');
+                          alert('¡Tu consulta ha sido enviada a IurisVecino con éxito!');
                           (window as any).submitted = false;
                           window.location.reload();
                         }
@@ -388,7 +383,5 @@ export default function App() {
         )}
       </AnimatePresence>
     </div>
-  );
-}
   );
 }
