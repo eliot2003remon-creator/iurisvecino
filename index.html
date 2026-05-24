@@ -1,13 +1,23 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<form id="formContacto">
+  <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+  <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
+  <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos tu caso" required></textarea>
+  
+  <button type="submit">Enviar Consulta</button>
+</form>
 
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(window.submitted) { alert('¡Tu consulta ha sido enviada a IurisVecino con éxito!'); document.getElementById('formContacto').reset(); window.submitted=false; }"></iframe>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  var form = document.getElementById('formContacto');
+  
+  form.action = "https://script.google.com/macros/s/AKfycbzMRnFCo3wcZM6We3ijOlcmLKBSX1X5DiZnWykmKSkYVFJ3Cmmg-qc6rUOu_ozfmHE/exec";
+  form.method = "POST";
+  form.target = "hidden_iframe"; 
+
+  form.addEventListener('submit', function() {
+    window.submitted = true; 
+  });
+});
+</script>
