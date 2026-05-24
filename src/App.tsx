@@ -362,19 +362,41 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Sticky Disclaimer Footer */}
-              <footer className="bg-white border-t border-slate-200 p-8 fixed bottom-0 left-80 right-0 z-20">
-                <div className="max-w-4xl mx-auto flex items-center gap-6">
-                  <div className="w-10 h-10 rounded bg-amber-50 flex items-center justify-center shrink-0 border border-amber-100">
-                    <FileWarning className="w-5 h-5 text-amber-600" />
+              {/* SECTOR DE MONETIZACIÓN: Descarga de Dictamen Oficial de Pago */}
+              <footer className="bg-white border-t border-slate-200 p-8 fixed bottom-0 left-80 right-0 z-20 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+                <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded bg-blue-50 flex items-center justify-center shrink-0 border border-blue-100">
+                      <Scale className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-wide">
+                        Descargar Dictamen Certificado con Membrete
+                      </h4>
+                      <p className="text-[11px] text-slate-500 max-w-xl mt-0.5">
+                        Recibe en tu correo el documento formal en PDF firmado por el Letrado, listo para aportar como prueba en tu Junta de Propietarios o notificar al Administrador.
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-[10px] text-slate-400 leading-tight uppercase font-bold tracking-tight max-w-xl">
-                    Este análisis es una asistencia de IA. No constituye un dictamen vinculante. Se recomienda consultar con un abogado colegiado para acciones judiciales.
-                  </p>
-                  <div className="ml-auto">
-                     <button className="px-6 py-3 bg-primary text-white text-[11px] font-bold rounded shadow-sm hover:bg-blue-800 uppercase tracking-widest transition-all hover:-translate-y-px active:translate-y-0">
-                       SOLICITAR SEGUNDA OPINIÓN
-                     </button>
+
+                  <div className="flex items-center gap-4 shrink-0 w-full md:w-auto justify-end">
+                    <div className="text-right">
+                      <span className="text-[10px] text-slate-400 font-bold block uppercase tracking-tight line-through">
+                        Antes 49€
+                      </span>
+                      <span className="text-xl font-black text-slate-900 tracking-tight">
+                        19,99€ <span className="text-xs font-medium text-slate-500">/ pdf</span>
+                      </span>
+                    </div>
+                    
+                    <button 
+                      onClick={() => {
+                        alert('Redirigiendo a la pasarela de pago seguro para la emisión y firma del PDF con el membrete del Letrado...');
+                      }}
+                      className="px-6 py-3.5 bg-blue-600 text-white text-[11px] font-bold rounded shadow-lg shadow-blue-600/20 hover:bg-blue-700 uppercase tracking-widest transition-all hover:-translate-y-px active:translate-y-0"
+                    >
+                      Descargar Documento Oficial
+                    </button>
                   </div>
                 </div>
               </footer>
