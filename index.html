@@ -1,23 +1,37 @@
-<form id="formContacto">
-  <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
-  <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
-  <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos tu caso" required></textarea>
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IurisVecino - Consulta Personalizada</title>
+  </head>
   
-  <button type="submit">Enviar Consulta</button>
-</form>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
 
-<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(window.submitted) { alert('¡Tu consulta ha sido enviada a IurisVecino con éxito!'); document.getElementById('formContacto').reset(); window.submitted=false; }"></iframe>
+    <!-- EL FORMULARIO DEBE IR AQUÍ (Dentro del body, justo debajo del root) -->
+    <div style="max-width: 500px; margin: 40px auto; padding: 20px; font-family: sans-serif;">
+      <h3 style="text-align: center;">Solicitud de Consulta Personalizada</h3>
+      <form id="formContacto" style="display: flex; flex-direction: column; gap: 15px;">
+        <input type="text" id="nombre" name="nombre" placeholder="Nombre" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
+        <input type="email" id="email" name="email" placeholder="Correo electrónico" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
+        <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos tu caso" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; min-height: 100px;" required></textarea>
+        <button type="submit" style="padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Enviar Consulta</button>
+      </form>
+    </div>
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(window.submitted) { alert('¡Tu consulta ha sido enviada a IurisVecino con éxito!'); document.getElementById('formContacto').reset(); window.submitted=false; }"></iframe>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  var form = document.getElementById('formContacto');
-  
-  form.action = "https://script.google.com/macros/s/AKfycbzMRnFCo3wcZM6We3ijOlcmLKBSX1X5DiZnWykmKSkYVFJ3Cmmg-qc6rUOu_ozfmHE/exec";
-  form.method = "POST";
-  form.target = "hidden_iframe"; 
-
-  form.addEventListener('submit', function() {
-    window.submitted = true; 
-  });
-});
-</script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        var form = document.getElementById('formContacto');
+        form.action = "https://script.google.com/macros/s/AKfycbzMRnFCo3wcZM6We3ijOlcmLKBSX1X5DiZnWykmKSkYVFJ3Cmmg-qc6rUOu_ozfmHE/exec";
+        form.method = "POST";
+        form.target = "hidden_iframe"; 
+        form.addEventListener('submit', function() {
+          window.submitted = true; 
+        });
+      });
+    </script>
+  </body> <
+</html>
