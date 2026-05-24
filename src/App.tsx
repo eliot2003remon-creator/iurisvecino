@@ -149,6 +149,61 @@ export default function App() {
                       <p className="text-xs font-semibold text-slate-700">Escaneado inteligente de PDF y actas.</p>
                     </div>
                   </div>
+
+                  {/* FORMULARIO DE CONTACTO AUTOMATIZADO CON GOOGLE SHEETS */}
+                  <div style={{ padding: '24px', backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '4px', marginTop: '40px' }}>
+                    <h3 style={{ fontSize: '14px', fontWeight: 'bold', textTransform: 'uppercase', trackingWidth: '0.05em', color: '#1e293b', marginBottom: '16px' }}>
+                      Solicitud de Consulta Personalizada
+                    </h3>
+                    <form 
+                      action="https://script.google.com/macros/s/AKfycbzMRnFCo3wcZM6We3ijOlcmLKBSX1X5DiZnWykmKSkYVFJ3Cmmg-qc6rUOu_ozfmHE/exec" 
+                      method="POST" 
+                      target="hidden_iframe"
+                      onSubmit={() => { (window as any).submitted = true; }}
+                      style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
+                    >
+                      <input 
+                        type="text" 
+                        name="nombre" 
+                        placeholder="Nombre completo" 
+                        style={{ padding: '10px', fontSize: '13px', border: '1px solid #e2e8f0', borderRadius: '2px', backgroundColor: '#f8fafc', outline: 'none' }} 
+                        required 
+                      />
+                      <input 
+                        type="email" 
+                        name="email" 
+                        placeholder="Correo electrónico" 
+                        style={{ padding: '10px', fontSize: '13px', border: '1px solid #e2e8f0', borderRadius: '2px', backgroundColor: '#f8fafc', outline: 'none' }} 
+                        required 
+                      />
+                      <textarea 
+                        name="mensaje" 
+                        placeholder="Describe detalladamente el problema con tu comunidad..." 
+                        style={{ padding: '10px', fontSize: '13px', border: '1px solid #e2e8f0', borderRadius: '2px', backgroundColor: '#f8fafc', outline: 'none', minHeight: '80px', resize: 'none' }} 
+                        required 
+                      ></textarea>
+                      
+                      <button 
+                        type="submit" 
+                        style={{ padding: '12px', backgroundColor: '#0f172a', color: '#ffffff', fontSize: '11px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.05em', border: 'none', borderRadius: '2px', cursor: 'pointer', transition: 'background-color 0.2s' }}
+                      >
+                        Enviar Caso a la Base de Datos
+                      </button>
+                    </form>
+
+                    <iframe 
+                      name="hidden_iframe" 
+                      id="hidden_iframe" 
+                      style={{ display: 'none' }} 
+                      onLoad={() => {
+                        if ((window as any).submitted) {
+                          alert('¡Tu consulta ha sido enviada a IurisVecino con éxito! Se ha registrado en la hoja de cálculo.');
+                          (window as any).submitted = false;
+                          window.location.reload();
+                        }
+                      }}
+                    ></iframe>
+                  </div>
                 </div>
 
                 <div className="bg-white border border-slate-200 shadow-2xl shadow-slate-200/50 rounded-sm p-8 space-y-8">
@@ -333,5 +388,7 @@ export default function App() {
         )}
       </AnimatePresence>
     </div>
+  );
+}
   );
 }
