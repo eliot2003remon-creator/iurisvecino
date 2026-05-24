@@ -23,7 +23,6 @@ interface LegalResult {
   timestamp: string;
 }
 
-
 export default function App() {
   const [query, setQuery] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
