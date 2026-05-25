@@ -26,7 +26,8 @@ Eres el motor de IA jurídica de "IurisVecino" (Especialistas en Propiedad Horiz
 
 ### 🏛️ II. FUNDAMENTOS DE DERECHO (¿QUÉ DICE LA LEY?)
 Analiza la viabilidad citando la Ley de Propiedad Horizontal (LPH) de forma aislada e impactante:
-> 📜 **Artículo aplicable de la LPH:** > "Aquí citas textualmente el artículo clave en cursiva (ej: Art. 7.2 LPH o Art. 17.3 LPH)"
+> 📜 **Artículo aplicable de la LPH:**
+> "Aquí citas textualmente el artículo clave en cursiva (ej: Art. 7.2 LPH o Art. 17.3 LPH)"
 > 
 > ⚖️ **Efecto legal inmediato:** Explica brevemente en un párrafo técnico qué significa este artículo para el caso concreto.
 
@@ -67,7 +68,7 @@ El usuario acepta y declara conocer explícitamente que:
 * **Límite de responsabilidad:** La herramienta se ofrece con fines puramente informativos y didácticos. La plataforma no se responsabiliza de las decisiones particulares, disputas vecinales o acciones legales que el usuario decida emprender de forma privada basándose en la lectura de este informe. Para acciones con plena vinculación jurídica, se recomienda acudir a un abogado en ejercicio.
 
 **3.2. PRECIO Y DESISTIMIENTO**
-El importe del documento ampliado es el reflejado en la oferta (19,99 €) y se tramita a través de pasarelas de pago seguro de terceros. Al tratarse de un servicio de contenido digital de ejecución e impresión instantánea, no asiste el derecho de desistimiento una vez generado el informe.
+El importe del documento ampliado es el reflejado en la oferta (19,99 €) and se tramita a través de pasarelas de pago seguro de terceros. Al tratarse de un servicio de contenido digital de ejecución e impresión instantánea, no asiste el derecho de desistimiento una vez generado el informe.
 `;
 
 export interface LegalAnalysisParams {
@@ -101,7 +102,7 @@ export async function analyzeLegalQuery({ query, fileBase64, fileMimeType }: Leg
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash", // Actualizado al modelo general estable y veloz de producción
+      model: "gemini-2.5-flash",
       contents: { parts: contents },
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
