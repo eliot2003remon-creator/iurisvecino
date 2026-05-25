@@ -2,7 +2,7 @@ import { useState, useRef, ChangeEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Scale, FileText, Upload, ShieldCheck, Search, FileWarning, 
-  Loader2, Download, X
+  Loader2, Download, X, HelpCircle
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { analyzeLegalQuery } from './services/gemini';
@@ -24,6 +24,11 @@ export default function App() {
   
   const [activeModal, setActiveModal] = useState<null | 'aviso' | 'privacidad' | 'terminos'>(null);
   const [loadingStep, setLoadingStep] = useState('');
+
+  // Estados para el buzón de consulta personalizada
+  const [nombreForm, setNombreForm] = useState('');
+  const [emailForm, setEmailForm] = useState('');
+  const [detalleForm, setDetalleForm] = useState('');
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -60,9 +65,9 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] flex flex-col font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden">
+    <div className="min-h-screen bg-[#f8fafc] flex flex-col font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden relative pb-14">
       
-      {/* HEADER */}
+      {/* HEADER ORIGINAL */}
       <header className="h-20 border-b border-slate-200 bg-white/80 backdrop-blur-md flex items-center px-8 md:px-16 shrink-0 sticky top-0 z-40 justify-between">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 bg-slate-900 rounded flex items-center justify-center shadow-lg shadow-slate-900/10">
@@ -77,32 +82,72 @@ export default function App() {
 
       <AnimatePresence mode="wait">
         {!result ? (
-          /* LANDING */
+          /* DISEÑO LANDING ORIGINAL RESTAURADO */
           <motion.main 
             key="landing"
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="flex-grow flex items-center justify-center py-12 px-6 md:px-16"
           >
             <div className="max-w-6xl w-full grid lg:grid-cols-12 gap-12 items-start">
-              <div className="lg:col-span-5 space-y-8">
+              
+              {/* BLOQUE IZQUIERDO CON EL BUZÓN ORIGINAL */}
+              <div className="lg:col-span-5 space-y-6">
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100 text-blue-700 text-[10px] font-bold uppercase tracking-widest rounded">
                   <ShieldCheck className="w-3.5 h-3.5" /> Protocolo IA • LPH 2026
                 </div>
                 <h2 className="text-4xl md:text-5xl font-serif font-black text-slate-900 leading-tight">
                   ¿Conflictos con tu <br/> <span className="text-blue-600 italic font-normal">comunidad?</span>
                 </h2>
-                <p className="text-slate-500 font-medium leading-relaxed">Analizamos tu caso bajo el marco de la Ley de Propiedad Horizontal y Jurisprudencia del Tribunal Supremo.</p>
-                <div className="bg-white border border-slate-200 rounded p-6 shadow-sm">
-                  <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider mb-3 select-none">Consulta de Registro</h3>
+                <p className="text-slate-500 font-medium text-sm leading-relaxed">Analizamos tu caso bajo el marco de la Ley de Propiedad Horizontal y Jurisprudencia del Tribunal Supremo.</p>
+                
+                {/* BUZÓN DE CONSULTA PERSONALIZADA TOTALMENTE RESTAURADO */}
+                <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
+                  <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
+                    <HelpCircle className="w-4 h-4 text-blue-600" />
+                    Solicitar Consulta Personalizada
+                  </h3>
                   <div className="flex flex-col gap-3">
-                    <input type="text" placeholder="Tu nombre" className="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded outline-none" />
-                    <button type="button" className="w-full py-2.5 bg-slate-100 text-slate-800 text-[10px] font-bold uppercase tracking-widest rounded">Registrar en Base de Datos</button>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase">Nombre Completo</label>
+                      <input 
+                        type="text" 
+                        value={nombreForm} 
+                        onChange={(e) => setNombreForm(e.target.value)} 
+                        placeholder="Ej: Juan Pérez Gómez" 
+                        className="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded outline-none focus:border-slate-400" 
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase">Correo Electrónico</label>
+                      <input 
+                        type="email" 
+                        value={emailForm} 
+                        onChange={(e) => setEmailForm(e.target.value)} 
+                        placeholder="Ej: juan@correo.com" 
+                        className="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded outline-none focus:border-slate-400" 
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase">Detalle de su consulta</label>
+                      <textarea 
+                        value={detalleForm} 
+                        onChange={(e) => setDetalleForm(e.target.value)} 
+                        placeholder="Escribe brevemente los datos adicionales de tu caso..." 
+                        className="w-full h-20 p-2.5 text-xs bg-slate-50 border border-slate-200 rounded outline-none focus:border-slate-400 resize-none" 
+                      />
+                    </div>
+                    <button 
+                      type="button" 
+                      onClick={() => alert('¡Datos del buzón registrados en el sistema de pruebas con éxito!')}
+                      className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-[10px] font-bold uppercase tracking-widest rounded transition-all"
+                    >
+                      Enviar Solicitud
+                    </button>
                   </div>
                 </div>
               </div>
 
+              {/* BLOQUE DERECHO: FORMULARIO IA */}
               <div className="lg:col-span-7 bg-white border border-slate-200 shadow-xl rounded p-8 space-y-6">
                 <div className="space-y-2">
                   <label className="text-[11px] font-black text-slate-400 uppercase block">Descripción del Conflicto</label>
@@ -128,12 +173,10 @@ export default function App() {
             </div>
           </motion.main>
         ) : (
-          /* RESULTADOS */
+          /* PANTALLA RESULTADOS ORIGINAL CORREGIDA */
           <motion.div 
             key="results"
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="flex-grow flex h-[calc(100vh-136px)] overflow-hidden"
           >
             <aside className="w-80 bg-white border-r border-slate-200 flex flex-col shrink-0 p-6 space-y-6 overflow-y-auto">
@@ -161,7 +204,7 @@ export default function App() {
                 </div>
               </div>
 
-              {/* BARRA MONETIZACIÓN */}
+              {/* BARRA DE MONETIZACIÓN AZUL FIJA SOBRE EL FOOTER */}
               <div className="fixed bottom-14 left-80 right-0 bg-slate-900 text-white p-5 shadow-2xl border-t border-slate-950 z-30">
                 <div className="max-w-3xl mx-auto flex items-center justify-between">
                   <div className="flex items-center gap-4">
@@ -181,7 +224,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* STICKY FOOTER LEGAL */}
+      {/* FOOTER LEGAL FIJO ABAJO DEL TODO */}
       <footer className="h-14 border-t border-slate-200 bg-white flex items-center justify-between px-8 md:px-16 text-[10px] text-slate-400 font-bold uppercase tracking-widest fixed bottom-0 left-0 right-0 z-50">
         <div className="flex items-center gap-2">
           <Scale className="h-3.5 w-3.5 text-slate-300" />
@@ -194,7 +237,7 @@ export default function App() {
         </div>
       </footer>
 
-      {/* MODALES EN PANTALLA */}
+      {/* VENTANAS EMERGENTES (MODALES) */}
       <AnimatePresence>
         {activeModal && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center p-6 text-slate-700">
@@ -203,41 +246,4 @@ export default function App() {
                 <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Documentación Legal</h3>
                 <button onClick={() => setActiveModal(null)} className="p-1 hover:bg-slate-200 rounded cursor-pointer"><X className="w-4 h-4" /></button>
               </div>
-              <div className="p-6 overflow-y-auto text-xs leading-relaxed space-y-4 text-justify text-slate-600">
-                {activeModal === 'aviso' && (
-                  <>
-                    <p className="font-black text-slate-900 uppercase">1. Entorno de Validación</p>
-                    <p>Este Sitio Web (https://iurisvecino.vercel.app/) opera como una simulación y prototipo tecnológico para el análisis predictivo de datos. Contacto técnico centralizado a través de: iurisvecino.soporte@gmail.com.</p>
-                    <p className="font-black text-slate-900 uppercase">2. Uso Obligatorio</p>
-                    <p>El acceso otorga la condición de usuario, comprometiéndose a introducir únicamente hechos lícitos y absteniéndose de realizar envíos automatizados perjudiciales para la plataforma.</p>
-                  </>
-                )}
-                {activeModal === 'privacidad' && (
-                  <>
-                    <p className="font-black text-slate-900 uppercase">1. Tratamiento Confidencial</p>
-                    <p>Las consultas se procesan en tiempo real de forma serverless mediante la infraestructura cifrada de Google AI Studio. No se indexan, almacenan ni comercializan bases de datos personales a terceros con fines publicitarios.</p>
-                    <p className="font-black text-slate-900 uppercase">2. Supresión</p>
-                    <p>Al no retener información comercial identificable, cualquier solicitud sobre trazas operativas puede enviarse al correo de soporte técnico unificado: iurisvecino.soporte@gmail.com.</p>
-                  </>
-                )}
-                {activeModal === 'terminos' && (
-                  <>
-                    <p className="font-black text-rose-600 uppercase">⚠️ Cláusula Imperativa de Exención de Responsabilidad</p>
-                    <div className="bg-rose-50 border border-rose-100 rounded-xl p-4 text-slate-700 space-y-2 leading-relaxed">
-                      <p><strong>Naturaleza:</strong> El pre-dictamen informatizado es el resultado de un análisis predictivo basado en modelos de Inteligencia Artificial.</p>
-                      <p><strong>No Asesoramiento:</strong> Este informe es puramente informativo. <strong className="text-slate-900 underline">No constituye, ni sustituye bajo ningún concepto, el dictamen vinculante, el asesoramiento personalizado o la defensa formal por parte de un abogado colegiado en ejercicio.</strong></p>
-                      <p><strong>Responsabilidad:</strong> El operador declina cualquier responsabilidad por las decisiones particulares adoptadas de forma privada por el usuario en su comunidad de vecinos.</p>
-                    </div>
-                  </>
-                )}
-              </div>
-              <div className="border-t border-slate-100 p-3 flex justify-end bg-slate-50">
-                <button onClick={() => setActiveModal(null)} className="bg-slate-900 text-white text-xs font-semibold py-1.5 px-4 rounded-lg cursor-pointer hover:bg-slate-800">Cerrar</button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
+              <div className="p-6 overflow-y-auto text-xs leading-relaxed space-y-4 text-
