@@ -64,7 +64,7 @@ export default function App() {
     }
   };
 
-  // 🛠️ FUNCIÓN DE CONEXIÓN CON GOOGLE SHEETS INYECTADA:
+  // 🛠️ FUNCIÓN DE ENVÍO POR FORMULARIO TRADICIONAL (INMUNE A BLOQUEOS):
   const handleEnviarBuzon = async () => {
     if (!nombreForm.trim() || !emailForm.trim()) {
       alert('Por favor, rellena al menos el Nombre y el Correo Electrónico.');
@@ -72,20 +72,22 @@ export default function App() {
     }
 
     try {
-      // ⚠️ CAMBIA ESTE TEXTO POR TU URL REAL DE GOOGLE APPS SCRIPT:
-      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVNlc09u0vgAz7h563JczdVRnpjMxqacLAmT9xKeBCL16bEBXaIn_L24J-f2_Q3zQ7/exec';
+      // ⬇️ PEGA AQUÍ TU ENLACE DE GOOGLE APPS SCRIPT QUE TERMINA EN /exec ⬇️
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx71HetmQJI_TNrHnyL_fQd8m6XyXQlmOkxYs6O4caOhIYDicNLKcQBvykZEZoUPe2u/exec';
+
+      // Empaquetamos los datos como variables de formulario clásicas URL
+      const params = new URLSearchParams();
+      params.append('nombre', nombreForm);
+      params.append('email', emailForm);
+      params.append('detalle', detalleForm);
 
       await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
-        mode: 'no-cors', // Evita bloqueos por restricciones de CORS de Google
+        mode: 'no-cors', // Evita que el navegador tumbe la petición
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify({
-          nombre: nombreForm,
-          email: emailForm,
-          detalle: detalleForm
-        }),
+        body: params.toString(),
       });
 
       alert('¡Solicitud enviada y registrada en Google Sheets correctamente!');
@@ -169,7 +171,6 @@ export default function App() {
                         className="w-full h-20 p-2.5 text-xs bg-slate-50 border border-slate-200 rounded outline-none focus:border-slate-400 resize-none" 
                       />
                     </div>
-                    {/* 🛠️ BOTÓN ACTUALIZADO PARA ACTIVAR LA FUNCIÓN REAL DE SHEETS: */}
                     <button 
                       type="button" 
                       onClick={handleEnviarBuzon}
@@ -258,10 +259,63 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* FOOTER TOTALMENTE COMPLETO Y FIJO */}
+      {/* FOOTER LEGAL FIJO ABAJO DEL TODO */}
       <footer className="h-14 border-t border-slate-200 bg-white flex items-center justify-between px-8 md:px-16 text-[10px] text-slate-400 font-bold uppercase tracking-widest fixed bottom-0 left-0 right-0 z-50">
         <div className="flex items-center gap-2">
           <Scale className="h-3.5 w-3.5 text-slate-300" />
           <span>IURISVECINO © 2026. PROTOTIPO MVP.</span>
         </div>
-        <div className="
+        <div className="flex gap-6">
+          <button onClick={() => setActiveModal('aviso')} className="hover:text-blue-600 transition-colors cursor-pointer">Aviso Legal</button>
+          <button onClick={() => setActiveModal('privacidad')} className="hover:text-blue-600 transition-colors cursor-pointer">Privacidad</button>
+          <button onClick={() => setActiveModal('terminos')} className="hover:text-blue-600 transition-colors cursor-pointer">Términos</button>
+        </div>
+      </footer>
+
+      {/* MODALES TEXTOS LEGALES INTEGRADOS */}
+      <AnimatePresence>
+        {activeModal && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center p-6 text-slate-700">
+            <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} exit={{ scale: 0.95 }} className="bg-white rounded-xl shadow-2xl w-full max-w-xl max-h-[80vh] overflow-hidden flex flex-col">
+              <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Documentación Legal</h3>
+                <button onClick={() => setActiveModal(null)} className="p-1 hover:bg-slate-200 rounded cursor-pointer"><X className="w-4 h-4" /></button>
+              </div>
+              <div className="p-6 overflow-y-auto text-xs leading-relaxed space-y-4 text-justify text-slate-600">
+                {activeModal === 'aviso' && (
+                  <>
+                    <p className="font-black text-slate-900 uppercase">1. Entorno de Validación</p>
+                    <p>Este Sitio Web (https://iurisvecino.vercel.app/) opera como una simulación y prototipo tecnológico para el análisis predictivo de datos. Contacto técnico unificado a través de: iurisvecino.soporte@gmail.com.</p>
+                    <p className="font-black text-slate-900 uppercase">2. Uso Obligatorio</p>
+                    <p>El acceso otorga la condición de usuario, comprometiéndose a introducir únicamente hechos lícitos y absteniéndose de realizar envíos automatizados perjudiciales para la plataforma.</p>
+                  </>
+                )}
+                {activeModal === 'privacidad' && (
+                  <>
+                    <p className="font-black text-slate-900 uppercase">1. Tratamiento Confidencial</p>
+                    <p>Las consultas se procesan en tiempo real de forma serverless mediante la infraestructura cifrada de Google AI Studio. No se indexan, almacenan ni comercializan bases de datos personales a terceros con fines publicitarios.</p>
+                    <p className="font-black text-slate-900 uppercase">2. Supresión</p>
+                    <p>Al no retener información comercial identificable, cualquier solicitud sobre trazas operativas puede enviarse al correo de soporte técnico unificado: iurisvecino.soporte@gmail.com.</p>
+                  </>
+                )}
+                {activeModal === 'terminos' && (
+                  <>
+                    <p className="font-black text-rose-600 uppercase">⚠️ Cláusula Imperativa de Exención de Responsabilidad</p>
+                    <div className="bg-rose-50 border border-rose-100 rounded-xl p-4 text-slate-700 space-y-2 leading-relaxed">
+                      <p><strong>Naturaleza:</strong> El pre-dictamen informatizado es el resultado de un análisis predictivo basado en modelos de Inteligencia Artificial.</p>
+                      <p><strong>No Asesoramiento:</strong> Este informe es puramente informativo. <strong className="text-slate-900 underline">No constituye, ni sustituye bajo ningún concepto, el dictamen vinculante, el asesoramiento personalizado o la defensa formal por parte de un abogado colegiado en ejercicio.</strong></p>
+                      <p><strong>Responsabilidad:</strong> El operador declina cualquier responsabilidad por las decisiones particulares adoptadas de forma privada por el usuario en su comunidad de vecinos.</p>
+                    </div>
+                  </>
+                )}
+              </div>
+              <div className="border-t border-slate-100 p-3 flex justify-end bg-slate-50">
+                <button onClick={() => setActiveModal(null)} className="bg-slate-900 text-white text-xs font-semibold py-1.5 px-4 rounded-lg cursor-pointer hover:bg-slate-800">Cerrar</button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
